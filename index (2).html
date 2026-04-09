@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valdrath RPG - Classes e Raças</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap');
+        
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-tertiary: #1a1a25;
+            --text-primary: #e0e0e0;
+            --text-secondary: #8b8b9a;
+            --accent-gold: #d4af37;
+            --accent-blood: #8b0000;
+            --accent-magic: #4a90e2;
+            --accent-nature: #228b22;
+            --border-subtle: #2a2a3a;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: 'Crimson Text', serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        header {
+            background: linear-gradient(180deg, #1a1a2e 0%, var(--bg-primary) 100%);
+            padding: 60px 20px;
+            text-align: center;
+            border-bottom: 3px double var(--accent-gold);
+        }
+        
+        header h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 3rem;
+            color: var(--accent-gold);
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+            letter-spacing: 0.1em;
+        }
+        
+        header p {
+            color: var(--text-secondary);
+            font-style: italic;
+            margin-top: 10px;
+            font-size: 1.2rem;
+        }
+        
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(10, 10, 15, 0.95);
+            border-bottom: 2px solid var(--accent-blood);
+            z-index: 1000;
+            padding: 15px 0;
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+        
+        nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-family: 'Cinzel', serif;
+            font-size: 1rem;
+            transition: all 0.3s;
+            padding: 5px 15px;
+        }
+        
+        nav a:hover {
+            color: var(--accent-gold);
+            border-bottom: 1px solid var(--accent-gold);
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 2.2rem;
+            color: var(--accent-gold);
+            border-bottom: 2px solid var(--accent-blood);
+            padding-bottom: 10px;
+            margin: 60px 0 30px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        h3 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            color: var(--accent-magic);
+            margin: 40px 0 20px;
+            border-left: 4px solid var(--accent-gold);
+            padding-left: 15px;
+        }
+        
+        .card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            padding: 25px;
+            margin: 25px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-blood), var(--accent-gold));
+        }
+        
+        .card h4 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.4rem;
+            color: var(--accent-gold);
+            margin-bottom: 10px;
+        }
+        
+        .tag {
+            display: inline-block;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--accent-blood);
+            padding: 3px 10px;
+            font-size: 0.8rem;
+            margin-right: 5px;
+            margin-bottom: 5px;
+            font-family: 'Cinzel', serif;
+            color: var(--text-secondary);
+        }
+        
+        .stats {
+            background: rgba(0,0,0,0.3);
+            padding: 10px 15px;
+            margin: 15px 0;
+            border-left: 3px solid var(--accent-magic);
+            font-size: 0.95rem;
+        }
+        
+        .ability {
+            background: rgba(0,0,0,0.2);
+            padding: 15px;
+            margin: 12px 0;
+            border-left: 3px solid var(--accent-nature);
+        }
+        
+        .ability strong {
+            color: var(--accent-gold);
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .unique {
+            border-left-color: var(--accent-blood);
+            background: linear-gradient(90deg, rgba(139,0,0,0.1) 0%, rgba(0,0,0,0.2) 100%);
+        }
+        
+        .unique::before {
+            background: linear-gradient(90deg, var(--accent-gold), var(--accent-blood));
+        }
+        
+        .unique h4 {
+            color: var(--accent-blood);
+        }
+        
+        p {
+            margin-bottom: 12px;
+            text-align: justify;
+        }
+        
+        .section-intro {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            font-style: italic;
+            border-left: 3px solid var(--accent-gold);
+            padding-left: 20px;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 40px;
+            border-top: 2px solid var(--accent-blood);
+            margin-top: 80px;
+            color: var(--text-secondary);
+        }
+        
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+            .nav-container {
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Classes e Raças</h1>
+        <p>Arquétipos e linhagens do mundo pós-queda</p>
+    </header>
+
+    <nav>
+        <div class="nav-container">
+            <a href="#racas">Raças</a>
+            <a href="#classes">Classes</a>
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <section id="racas">
+            <h2>◈ Raças</h2>
+            <p class="section-intro">As cinco raças únicas de Valdrath, moldadas pelos deuses caídos, e as dez linhagens clássicas adaptadas para este mundo sombrio.</p>
+
+            <h3>As Cinco Marcas da Queda</h3>
+
+            <div class="card unique">
+                <h4>Filho do Luto (Mourne)</h4>
+                <span class="tag">Humano Modificado</span>
+                <span class="tag">Memória Perfeita</span>
+                
+                <p>Os mournianos não esquecem. Cada rosto, cada nome, cada injúria fica gravado para sempre em suas mentes de aço. Carregam o peso de cidades inteiras que deixaram de existir.</p>
+                
+                <div class="stats">
+                    <strong>Atributos:</strong> +1d4 em testes de memória e reconhecimento | <strong>Tamanho:</strong> Médio | <strong>Deslocamento:</strong> 6m
+                </div>
+                
+                <div class="ability">
+                    <strong>Memória Perfeita:</strong> Nunca esquece um rosto, nome ou detalhe significativo. Pode fazer testes de INT para recordar exatamente o que viu semanas atrás. Imune a magia de apagamento de memória básica.
+                </div>
+                
+                <div class="ability">
+                    <strong>Luto Compartilhado:</strong> Quando um aliado cai a 0 HP em seu campo de visão, ganha +1d4 em todos os testes até estabilizá-lo ou vingá-lo. Se falhar em vingá-lo, sofre desvantagem em PRE por 24h.
+                </div>
+                
+                <div class="ability">
+                    <strong>Peso da História:</strong> Desvantagem em testes para esquecer trauma ou aceitar magia de modificação de memória. Quando dorme, o Mestre pode exigir teste de INT (dificuldade 10) ou reviver pesadelos de memórias herdadas (-1d4 em testes no dia seguinte).
+                </div>
+            </div>
+
+            <div class="card unique">
+                <h4>Adaptado de Cristal (Yelith)</h4>
+                <span class="tag">Humano Bio-Integrado</span>
+                <span class="tag">Regeneração</span>
+                
+                <p>Seus corpos foram alterados pela proximidade com Sael. Veias de cristal verde-cor água percorrem sua pele, pulsando com a vida da deusa caída.</p>
+                
+                <div class="stats">
+                    <strong>Atributos:</strong> +1d4 em adaptação/sobrevivência | <strong>Tamanho:</strong> Médio | <strong>Deslocamento:</strong> 6m
+                </div>
+                
+                <div class="ability">
+                    <strong>Sinfonia Celular:</strong> Resistência a venenos, doenças e condições ambientais extremas. Podem sobreviver sem comida pelo dobro do tempo normal. Sangramento leve para automaticamente em 1 turno.
+                </div>
+                
+                <div class="ability">
+                    <strong>Toque de Sael:</strong> Uma vez por dia, podem regenerar 1d4 HP naturalmente sem usar magia. Se usarem em outro, curam 1d6 mas sofrem 1 de dano (transferência biológica).
+                </div>
+                
+                <div class="ability">
+                    <strong>Vulnerabilidade Sagrada:</strong> Dano dobrado de magia sagrada pura (Tharwen) e prata purificada. Toque em objetos religiosos tharwenianos causa 1d4 de dano por turno de contato.
+                </div>
+            </div>
+
+            <div class="card unique">
+                <h4>Tharweniano Devoto</h4>
+                <span class="tag">Humano de Fé Intensa</span>
+                <span class="tag">Anti-Magia</span>
+                
+                <p>Sua convicção é tão absoluta que rejeita a própria realidade quando contradiz sua fé. Vivem em estado de indignação sagrada permanente desde a queda de Sael.</p>
+                
+                <div class="stats">
+                    <strong>Atributos:</strong> +1d4 em testes contra medo/ilusão | <strong>Tamanho:</strong> Médio | <strong>Deslocamento:</strong> 6m
+                </div>
+                
+                <div class="ability">
+                    <strong>Aura de Convicção:</strong> Aliados em 3m ganham +1d4 em testes contra medo, ilusão e encantamento. Sua presença é palpável, quase física em sua intensidade.
+                </div>
+                
+                <div class="ability">
+                    <strong>Cegueira à Dúvida:</strong> Uma vez por sessão, podem ignorar completamente uma evidência contraditória à sua fé. Mechanically: anular um teste de INT que revelaria algo que não querem saber, mas marcam 1 uso de "negação". Após 3 negações, sofrem crise de fé (desvantagem em tudo por 1 dia).
+                </div>
+                
+                <div class="ability">
+                    <strong>Rigidez Dogmática:</strong> Desvantagem em testes para aceitar novas ideias, mudar opinião formada ou trabalhar com hereges declarados. Devem testar PRE (dificuldade 12) para cooperar com yelithianos visivelmente alterados.
+                </div>
+            </div>
+
+            <div class="card unique">
+                <h4>Valdriano da Cratera</h4>
+                <span class="tag">Humano Alterado</span>
+                <span class="tag">Percepção</span>
+                
+                <p>Pele pálida, temperatura corporal baixa, olhos que veem "padrões" onde outros veem caos. A cratera de Orath os marcou mesmo sem nunca terem pisado lá.</p>
+                
+                <div class="stats">
+                    <strong>Atributos:</strong> +1d4 em investigação/percepção | <strong>Tamanho:</strong> Médio | <strong>Deslocamento:</strong> 6m
+                </div>
+                
+                <div class="ability">
+                    <strong>Visão de Falhas:</strong> Veem padrões no mundo: fraquezas estruturais em construções, mentiras óbvias em discursos, fluxo mágico. +1d4 em investigação e percepção de ilusões. Podem testar INT para detectar magia ativa em 10m.
+                </div>
+                
+                <div class="ability">
+                    <strong>Toque Frio:</strong> Temperatura corporal 10°C abaixo do normal. Imunes a frio ambiental. Podem escolher causar dano de frio (1d4) com toques desarmados. Água ao redor deles congela lentamente (1 minuto para 1 litro).
+                </div>
+                
+                <div class="ability">
+                    <strong>Obsessão Mecânica:</strong> Quando encontram algo inexplicável, devem testar INT (dificuldade 12) ou ficam obcecados em investigar aquilo antes de fazer mais nada. Em combate contra criaturas desconhecidas, devem gastar a primeira ação em "análise" (teste INT) ou sofrer desvantagem por "distração intelectual".
+                </div>
+            </div>
+
+            <div class="card unique">
+                <h4>Caenethiano Temporal</h4>
+                <span class="tag">Humano Fora do Tempo</span>
+                <span class="tag">Paciência</span>
+                
+                <p>Envelhecem metade da velocidade, movem-se com calma que beira o sobrenatural. Para eles, esperar não é passividade — é preparação ativa.</p>
+                
+                <div class="stats">
+                    <strong>Atributos:</strong> +1d4 em testes de paciência/espera | <strong>Tamanho:</strong> Médio | <strong>Deslocamento:</strong> 6m (mas podem "guardar" movimento)
+                </div>
+                
+                <div class="ability">
+                    <strong>Paciência Física:</strong> Envelhecem metade da velocidade. Podem segurar a respiração pelo dobro do tempo. Não precisam dormir 1 dia a cada 3 (meditam ativamente). Imunes a cansaço por privação de sono por 48h.
+                </div>
+                
+                <div class="ability">
+                    <strong>Senso de Espera:</strong> Em situações de espera, emboscada ou vigia, ganham vantagem na iniciativa e +1d4 em testes de INS. Se atacarem primeiro em tal situação, o alvo não pode reagir no primeiro turno.
+                </div>
+                
+                <div class="ability">
+                    <strong>Desconexão Temporal:</strong> Dificuldade +2 em testes de empatia ou entender urgência aldeã ("por que a pressa?"). Em situações de tempo limitado (bomba, envenenamento, etc), sofrem desvantagem em testes de concentração.
+                </div>
+            </div>
+
+            <h3>Raças Clássicas (10)</h3>
+
+            <div class="card">
+                <h4>Alto Elfo</h4>
+                <span class="tag">Arcano</span>
+                <span class="tag">Antigo</span>
+                <p><strong>Gracilidade Arcana:</strong> +1d4 em testes de magia arcana. Uma vez por dia, podem rolar novamente um teste de magia falho.</p>
+                <p><strong>Tradição Perdida:</strong> Desvantagem em testes de tecnologia ou engenhos "modernos" (pós-Império).</p>
+            </div>
+
+            <div class="card">
+                <h4>Humano Comum</h4>
+                <span class="tag">Versátil</span>
+                <span class="tag">Adaptável</span>
+                <p><strong>Resiliência Mortal:</strong> Uma vez por sessão, quando cairiam a 0 HP, ficam com 1 HP em vez disso.</p>
+                <p><strong>Sem Herança:</strong> Não possuem resistências naturais a nenhum tipo de dano ou condição.</p>
+            </div>
+
+            <div class="card">
+                <h4>Orc</h4>
+                <span class="tag">Feroz</span>
+                <span class="tag">Marcado</span>
+                <p><strong>Fúria Controlada:</strong> Quando HP está abaixo de metade, +1d4 em FOR mas desvantagem em INT.</p>
+                <p><strong>Estigma Social:</strong> Desvantagem em testes de PRE com não-orcs que nunca os conheceram.</p>
+            </div>
+
+            <div class="card">
+                <h4>Halfling</h4>
+                <span class="tag">Furtivo</span>
+                <span class="tag">Sortudo</span>
+                <p><strong>Sorte dos Pequenos:</strong> Uma vez por dia, podem forçar um reroll em qualquer dado (próprio ou de outro).</p>
+                <p><strong>Pequeno:</strong> +1d4 em furtividade, mas deslocamento 4,5m e dificuldade +2 em testes de FOR para mover objetos pesados.</p>
+            </div>
+
+            <div class="card">
+                <h4>Gnomo</h4>
+                <span class="tag">Engenhoso</span>
+                <span class="tag">Curioso</span>
+                <p><strong>Engenho Rápido:</strong> Podem criar itens improvisados com metade do tempo. +1d4 em engenhos e dispositivos.</p>
+                <p><strong>Curiosidade Fatal:</strong> Devem testar INT (dificuldade 10) para resistir a investigar algo misterioso, mesmo perigoso.</p>
+            </div>
+
+            <div class="card">
+                <h4>Draconato</h4>
+                <span class="tag">Elemental</span>
+                <span class="tag">Orgulhoso</span>
+                <p><strong>Sopro Dracônico:</strong> Uma vez por descanso curto, causam 2d6 de dano elemental (tipo escolhido na criação) em cone de 4,5m.</p>
+                <p><strong>Orgulho Herdado:</strong> Desvantagem em testes para pedir ajuda, recuar ou admitir erro.</p>
+            </div>
+
+            <div class="card">
+                <h4>Tabaxi</h4>
+                <span class="tag">Ágil</span>
+                <span class="tag">Curioso</span>
+                <p><strong>Reflexos Felinos:</strong> +1d4 em iniciativa e testes de AGI. Nunca são surpreendidos em emboscadas (se conscientes).</p>
+                <p><strong>Atenção Fragmentada:</strong> Depois de 1 hora na mesma atividade, devem testar INS (dificuldade 8) ou buscar distração.</p>
+            </div>
+
+            <div class="card">
+                <h4>Tritão</h4>
+                <span class="tag">Aquático</span>
+                <span class="tag">Isolado</span>
+                <p><strong>Respiração Anfíbia:</strong> Respiram água e ar. Nadam velocidade dobro. Comunicação telepática simples com criaturas aquáticas.</p>
+                <p><strong>Desconforto Terrestre:</strong> Depois de 24h fora d'água, -1d4 em RES até banho completo ou contato com corpo d'água grande.</p>
+            </div>
+
+            <div class="card">
+                <h4>Aarakocra</h4>
+                <span class="tag">Voador</span>
+                <span class="tag">Livre</span>
+                <p><strong>Asas:</strong> Deslocamento de voo 15m (não em armadura pesada). Vantagem em testes de percepção aérea.</p>
+                <p><strong>Ossos Ocos:</strong> Dano de queda dobrado. Dificuldade +2 em testes de FOR para resistir empurrão ou derrubar.</p>
+            </div>
+
+            <div class="card">
+                <h4>Firbolg</h4>
+                <span class="tag">Gigante</span>
+                <span class="tag">Pacífico</span>
+                <p><strong>Força Gentil:</strong> +1d4 em FOR, mas podem escolher causar dano não-letal sem penalidade. Invisibilidade limitada (1 minuto) 1x dia em florestas.</p>
+                <p><strong>Vulnerabilidade Emocional:</strong> Dano psíquico dobrado. Dificuldade -2 em testes para resistir manipulação emocional.</p>
+            </div>
+        </section>
+
+        <section id="classes">
+            <h2>◈ Classes</h2>
+            <p class="section-intro">Treze caminhos de poder, desde os guerreiros brutais até os manipuladores das forças proibidas. Cada classe possui três habilidades iniciais e evolui por uso.</p>
+
+            <h3>As Cinco da Queda</h3>
+
+            <div class="card unique">
+                <h4>Arquivista da Marca</h4>
+                <span class="tag">Tanque</span>
+                <span class="tag">Suporte</span>
+                <span class="tag">Defensor</span>
+                
+                <div class="stats">
+                    <strong>Dado de Vida:</strong> d10 | <strong>Atributo Principal:</strong> RES | <strong>Recurso:</strong> Memórias de Batalha (RES/2 por descanso longo)
+                </div>
+                
+                <p>Guerreiros-arquivistas de Mourne que registram cada ferida para que nada seja esquecido. Usam armaduras pesadas e tomos de metal.</p>
+                
+                <div class="ability">
+                    <strong>Registro de Batalha:</strong> Como Ação Livre, marque um inimigo visível. Enquanto estiver marcado, pode usar Reação para redirecionar ataques direcionados a aliados adjacentes para si mesmo. Dura até o fim do combate ou até cair.
+                </div>
+                
+                <div class="ability">
+                    <strong>Postura da Lembrança:</strong> Gaste 1 Memória de Batalha. Por 3 turnos, área em 3m ao redor se torna "território defendido". Aliados dentro recebem metade do dano (arredondado para baixo).
+                </div>
+                
+                <div class="ability">
+                    <strong>Último Testemunho:</strong> Quando aliado cai a 0 HP em seu campo de visão, ganha imediatamente Ação Principal extra e +1d8 em todos os dados de dano até estabilizá-lo ou matar o agressor.
+                </div>
+            </div>
+
+            <div class="card unique">
+                <h4>Interno de Sael</h4>
+                <span class="tag">Bio-Mago</span>
+                <span class="tag">Curandeiro</span>
+                <span class="tag">Mutável</span>
+                
+                <div class="stats">
+                    <strong>Dado de Vida:</strong> d6 | <strong>Atributo Principal:</strong> INT | <strong>Recurso:</strong> Cristais de Carne (INT por dia)
+                </div>
+                
+                <p>Sacerdotes-cientistas que vivem dentro do corpo da deusa. Usam biologia estranha para curar, mutar e transformar.</p>
+                
+                <div class="ability">
+                    <strong>Sinfonia Biológica:</strong> Toque (Ação Principal). Cura 1d8 HP ou causa 1d8 veneno (escolha ao usar). Custo: 1d4 de dano em RES (magia inata). Se curar, pode transferir doença/veneno do alvo para si (teste RES para resistir).
+                </div>
+                
+                <div class="ability">
+                    <strong>Adaptação Rápida:</strong> Após sofrer dano de tipo específico (fogo, gelo, ácido, elétrico), role INT. Sucesso: ganha resistência àquele tipo até próximo descanso longo. Falha crítica: vulnerabilidade ao invés disso.
+                </div>
+                
+                <div class="ability">
+                    <strong>Toque da Deusa Viva:</strong> Uma vez por dia, pode regenerar membro perdido ou curar ferimento permanente (exceto morte). Custo: 1d10 de dano em RES + sequelas temporárias (surto de dor por 1d4 turnos, desvantagem em tudo).
+                </div>
+            </div>
+
+            <div class="card unique">
+                <h4>Guardião do Silêncio</h4>
+                <span class="tag">Paladino</span>
+                <span class="tag">Anti-Magia</span>
+                <span class="tag">Social</span>
+                
+                <div class="stats">
+                    <strong>Dado de Vida:</strong> d8 | <strong>Atributo Principal:</strong> PRE | <strong>Recurso:</strong> Fé Inabalável (PRE por dia)
+                </div>
+                
+                <p>Defensores da doutrina pura de Tharwen. Sua convicção rejeita magia e heregia. Usam armaduras cerimoniais e textos sagrados como escudos.</p>
+                
+                <div class="ability">
+                    <strong>Dogma Inquebrantável:</strong> Imune a medo mágico e encantamentos de controle mental. Pode usar PRE em vez de RES para testes contra magia mental. Aura de 3m: aliados ganham +1d4 contra esses efeitos.
+                </div>
+                
+                <div class="ability">
+                    <strong>Palavra de Indignação:</strong> Como Ação Principal, declare alvo como "profanador". Ele sofre desvantagem em todos os testes de magia e você causa +1d6 de dano contra ele. Dura até ele cair ou fugir. Se o alvo for yelithiano, bônus é +1d8.
+                </div>
+                
+                <div class="ability">
+                    <strong>Profanação Percebida:</strong> Sentido aguçado detecta automaticamente magia ativa em 30m e identifica fonte (Conhecimento, Inata, Fé ou Pacto). Uma vez por sessão, pode "cancelar" magia sendo lançada como Reação, anulando-a (custo: 1d8 PRE).
+                </div>
+            </div>
+
+            <div class="card unique">
+                <h4>Cartógrafo do Vazio</h4>
+                <span class="tag">Mago</span>
+                <span class="tag">Investigador</span>
+                <span class="tag">Alto Risco</span>
+                
+                <div class="stats">
+                    <strong>Dado de Vida:</strong> d6 | <strong>Atributo Principal:</strong> INT | <strong>Recurso:</strong> Hipóteses (INT/2 por dia)
+                </div>
+                
+                <p>Estudantes da cratera de Orath. Buscam entender o inexplicável, muitas vezes às custas da sanidade.</p>
+                
+                <div class="ability">
+                    <strong>Mapear o Inexplicável:</strong> Contra criaturas/fenômenos sobrenaturais (não naturais), pode usar INT em vez de INS para iniciativa e percepção. Causa +1d4 de dano contra tais entidades se usar conhecimento de fraquezas (teste INT prévio, dificuldade 12).
+                </div>
+                
+                <div class="ability">
+                    <strong>Hipótese Perigosa:</strong> Antes de qualquer teste, declare "hipótese" sobre resultado. Se correta (Mestre julga), ganha +1d12 no teste. Se errada, sofre desvantagem e 1d6 dano psíquico. Usos limitados por recurso Hipóteses.
+                </div>
+                
+                <div class="ability">
+                    <strong>Observador da Cratera:</strong> Visão verdadeira por 1 turno (Ação Principal). Vê através de ilusões, invisibilidade, falhas na realidade. Custo: 1d8 dano em INT + adiciona +1 permanentemente à dificuldade de todos os testes de sanidade futuros (acumula).
+                </div>
+            </div>
+
+            <div class="card unique">
+                <h4>Esperante de Verath</h4>
+                <span class="tag">Monge</span>
+                <span class="tag">Oráculo</span>
+                <span class="tag">Temporal</span>
+                
+                <div class="stats">
+                    <strong>Dado de Vida:</strong> d8 | <strong>Atributo Principal:</strong> INS | <strong>Recurso:</strong> Paciência (INS por dia)
+                </div>
+                
+                <p>Místicos de Caeneth que esperam a abertura da porta profetizada. Acreditam que o tempo é ilusão.</p>
+                
+                <div class="ability">
+                    <strong>Tempo é Ilusão:</strong> Pode escolher agir na Fase de Leitura sacrificando Ação Livre no turno. Ou, pode guardar Ação Principal para usar como Reação mais tarde na rodada (máximo 1 guardada).
+                </div>
+                
+                <div class="ability">
+                    <strong>Aguardar a Porta:</strong> Pode "carregar" até 2 ações (máximo 3 no turno) sacrificando turnos futuros. Ex: pula turno 2 para ter 3 ações no turno 3. Se interrompido durante "carga", perde ações acumuladas e fica atordoado 1 turno.
+                </div>
+                
+                <div class="ability">
+                    <strong>Profecia Fragmentada:</strong> Uma vez por sessão, declare que "já viu isso acontecer". Mestre deve dar dica verdadeira sobre resultado imediato de ação (se vai funcionar/falhar). Ou, pode forçar reroll em qualquer dado, escolhendo melhor ou pior resultado.
+                </div>
+            </div>
+
+            <h3>Classes Clássicas (10)</h3>
+
+            <div class="card">
+                <h4>Bárbaro</h4>
+                <span class="tag">Dano</span>
+                <span class="tag">Fúria</span>
+                <div class="stats"><strong>DV:</strong> d12 | <strong>Principal:</strong> FOR</div>
+                <div class="ability"><strong>Fúria:</strong> Uma vez por descanso curto, ganhe +1d6 dano por 3 turnos, mas desvantagem em esquiva.</div>
+                <div class="ability"><strong>Resistência Primitiva:</strong> Resistência a dano físico (não mágico) quando HP abaixo de metade.</div>
+                <div class="ability"><strong>Ataque Imprudente:</strong> Desvantagem na defesa para ganhar +1d8 no ataque.</div>
+            </div>
+
+            <div class="card">
+                <h4>Invocador</h4>
+                <span class="tag">Invocação</span>
+                <span class="tag">Pacto</span>
+                <div class="stats"><strong>DV:</strong> d6 | <strong>Principal:</strong> PRE</div>
+                <div class="ability"><strong>Vínculo de Invocação:</strong> Invoca criatura de pacto (estatísticas baseadas em nível). Custa 1d6 PRE por turno mantida.</div>
+                <div class="ability"><strong>Troca de Lugar:</strong> Pode trocar de posição com invocação como Reação.</div>
+                <div class="ability"><strong>Sacrifício de Vínculo:</strong> Invocação absorve dano que você receberia (máximo HP da criatura).</div>
+            </div>
+
+            <div class="card">
+                <h4>Guerreiro</h4>
+                <span class="tag">Versátil</span>
+                <span class="tag">Tático</span>
+                <div class="stats"><strong>DV:</strong> d10 | <strong>Principal:</strong> FOR/AGI</div>
+                <div class="ability"><strong>Estilo de Combate:</strong> Escolha: +1d4 dano (agressivo), +1d4 defesa (defensivo), ou +1d4 em manobras (tático).</div>
+                <div class="ability"><strong>Ataque Extra:</strong> Uma vez por descanso curto, ganhe Ação Principal extra de ataque.</div>
+                <div class="ability"><strong>Indomável:</strong> Pode reroll em teste de RES contra efeito de status (medo, veneno, etc).</div>
+            </div>
+
+            <div class="card">
+                <h4>Paladino</h4>
+                <span class="tag">Tanque</span>
+                <span class="tag>Cura</span>
+                <div class="stats"><strong>DV:</strong> d10 | <strong>Principal:</strong> PRE/FOR</div>
+                <div class="ability"><strong>Imposição das Mãos:</strong> Cura 2d6 HP em toque. Custo: 1d4 PRE (fé).</div>
+                <div class="ability"><strong>Divisão do Mal:</strong> +1d6 dano contra criaturas de pacto ou magia proibida.</div>
+                <div class="ability"><strong>Proteção Sagrada:</strong> Aliado adjacente ganha desvantagem em ataques contra ele (você intercepta).</div>
+            </div>
+
+            <div class="card">
+                <h4>Alquimista</h4>
+                <span class="tag">Item</span>
+                <span class="tag">Suporte</span>
+                <div class="stats"><strong>DV:</strong> d8 | <strong>Principal:</strong> INT</div>
+                <div class="ability"><strong>Preparação:</strong> Começa com 2 itens alquímicos (cura, veneno, explosivo, fumaça). Recarrega após descanso longo com ingredientes.</div>
+                <div class="ability"><strong>Aplicação Rápida:</strong> Usar item alquímico é Ação Livre (normalmente Principal).</div>
+                <div class="ability"><strong>Transmutação:</strong> Pode converter 1 item em outro do mesmo valor gastando 10 minutos.</div>
+            </div>
+
+            <div class="card">
+                <h4>Mago</h4>
+                <span class="tag">Arcano</span>
+                <span class="tag">Versátil</span>
+                <div class="stats"><strong>DV:</strong> d6 | <strong>Principal:</strong> INT</div>
+                <div class="ability"><strong>Grimório:</strong> Conhece 3 magias de qualquer fonte. Aprende novas por estudo (não uso).</div>
+                <div class="ability"><strong>Ritual Arcano:</strong> Pode lançar magia como ritual (10 minutos) sem pagar custo imediato (custo vem em sono perturbado).</div>
+                <div class="ability"><strong>Recuperação:</strong> Uma vez por dia, absorve mana residual: recupera 1d4 de dano em INT.</div>
+            </div>
+
+            <div class="card">
+                <h4>Necromante</h4>
+                <span class="tag">Mortos</span>
+                <span class="tag">Proibido</span>
+                <div class="stats"><strong>DV:</strong> d6 | <strong>Principal:</strong> INT/PRE</div>
+                <div class="ability"><strong>Levantar Morto:</strong> Anima cadáver (estatísticas baseadas em cadáver) por 1 hora. Custa 1d6 INT por cadáver.</div>
+                <div class="ability"><strong>Drenar Vida:</strong> Toque causa 1d8 necromântico, você cura metade. Custa 1d4 PRE.</div>
+                <div class="ability"><strong>Imunidade Parcial:</strong> Resistência a dano necromântico e veneno. Mente fraca contra magia de luz sagrada (desvantagem).</div>
+            </div>
+
+            <div class="card">
+                <h4>Samurai</h4>
+                <span class="tag">Precisão</span>
+                <span class="tag>Honra</span>
+                <div class="stats"><strong>DV:</strong> d10 | <strong>Principal:</strong> AGI/FOR</div>
+                <div class="ability"><strong>Juízo do Cortante:</strong> Uma vez por combate, ignore toda armadura do alvo em um ataque.</div>
+                <div class="ability"><strong>Postura de Combate:</strong> Escolha postura no início: ofensiva (+1d4 dano), defensiva (+1d4 esquiva), ou neutra (balanceado).</div>
+                <div class="ability"><strong>Último Suspiro:</strong> Se cair a 0 HP, pode fazer ataque imediato antes de cair (mesmo que não fosse sua vez).</div>
+            </div>
+
+            <div class="card">
+                <h4>Engenheiro</h4>
+                <span class="tag">Tecnologia</span>
+                <span class="tag">Construtor</span>
+                <div class="stats"><strong>DV:</strong> d8 | <strong>Principal:</strong> INT</div>
+                <div class="ability"><strong>Dispositivo:</strong> Possui 1 dispositivo mecânico (arma modificada, armadura mecânica, drone, etc). Melhora com uso.</div>
+                <div class="ability"><strong>Reparo Rápido:</strong> Como Ação Principal, repara objeto ou construção. Cura 2d6 "HP" de estrutura.</div>
+                <div class="ability"><strong>Análise Estrutural:</strong> +1d4 para detectar fraquezas em construções ou mecanismos.</div>
+            </div>
+
+            <div class="card">
+                <h4>Monge</h4>
+                <span class="tag">Corpo</span>
+                <span class="tag">Energia</span>
+                <div class="stats"><strong>DV:</strong> d8 | <strong>Principal:</strong> AGI/INS</div>
+                <div class="ability"><strong>Qí:</strong> Pool de pontos (nível + INS) gasta em técnicas. Recupera com meditação (10 min).</div>
+                <div class="ability"><strong>Golpe Qí:</strong> Gasta 1 Qí: ataque desarmado causa +1d8 e ignora 1d4 de armadura.</div>
+                <div class="ability"><strong>Passo do Vento:</strong> Gasta 1 Qí: deslocamento dobra por 1 turno, pode mover por superfícies impossíveis (água, paredes, etc).</div>
+            </div>
+
+            <div class="card">
+                <h4>Clérigo</h4>
+                <span class="tag">Fé</span>
+                <span class="tag">Suporte</span>
+                <div class="stats"><strong>DV:</strong> d8 | <strong>Principal:</strong> PRE</div>
+                <div class="ability"><strong>Canalizar Fé:</strong> Escolha domínio (Vida, Guerra, Conhecimento, etc). Ganha +1d4 em ações relacionadas.</div>
+                <div class="ability"><strong>Curaga:</strong> Toque ou 6m de distância, cura 2d6. Custa 1d6 PRE (fé).</div>
+                <div class="ability"><strong>Abençoar:</strong> Aliado ganha +1d4 em todos os testes por 1 hora. Custa 1d4 PRE.</div>
+            </div>
+
+            <div class="card">
+                <h4>Bruxo</h4>
+                <span class="tag">Pacto</span>
+                <span class="tag">Eldritch</span>
+                <div class="stats"><strong>DV:</strong> d8 | <strong>Principal:</strong> PRE/INT</div>
+                <div class="ability"><strong>Pacto Selado:</strong> Escolha patrono (celestial, infernal, antigo, etc). Determina resistências e fraquezas.</div>
+                <div class="ability"><strong>Lâmina Pactuada:</strong> Arma conjurada (1d8 dano) que retorna à mão. Pode empoderar (custo: 1d4 dividido entre PRE e INT) para causar +1d8.</div>
+                <div class="ability"><strong>Visão do Patrono:</strong> Uma vez por dia, veja através dos olhos do patrono por 1 turno (visão verdadeira, mas vulnerável a sanidade).</div>
+            </div>
+        </section>
+
+        <footer>
+            <p style="font-family: 'Cinzel', serif; font-size: 1.2rem; color: var(--accent-gold);">Valdrath RPG</p>
+            <p>Classes e Raças</p>
+        </footer>
+
+    </div>
+
+    <script>
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
